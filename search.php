@@ -14,11 +14,42 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch books from the database
+// Handle borrowing
+$borrow_message = '';
+if (isset($_POST['borrow_book'])) {
+    if (!isset($_SESSION['username'])) {
+        header("Location: login.php");
+        exit();
+    }
+
+    $book_id = $_POST['book_id'];
+    $username = $_SESSION['username'];
+    $user_sql = "SELECT id FROM users WHERE username = '$username'";
+    $user_result = $conn->query($user_sql);
+    $user = $user_result->fetch_assoc();
+    $user_id = $user['id'];
+
+    $borrow_sql = "INSERT INTO borrowed_books (user_id, book_id) VALUES ('$user_id', '$book_id')";
+    if ($conn->query($borrow_sql) === TRUE) {
+        $borrow_message = "Book borrowed successfully!";
+    } else {
+        $borrow_message = "Error borrowing book: " . $conn->error;
+    }
+}
+
+// Fetch books from the database with category filtering
+$category = isset($_GET['category']) ? $_GET['category'] : 'all';
 $search_query = isset($_GET['query']) ? $_GET['query'] : '';
 $sql = "SELECT * FROM books";
+$conditions = [];
 if ($search_query) {
-    $sql .= " WHERE title LIKE '%$search_query%' OR author LIKE '%$search_query%'";
+    $conditions[] = "(title LIKE '%$search_query%' OR author LIKE '%$search_query%')";
+}
+if ($category !== 'all') {
+    $conditions[] = "category = '$category'";
+}
+if (!empty($conditions)) {
+    $sql .= " WHERE " . implode(' AND ', $conditions);
 }
 $result = $conn->query($sql);
 ?>
@@ -86,11 +117,35 @@ $result = $conn->query($sql);
         .search-section {
             padding: 40px 20px;
             text-align: center;
+            animation: fadeIn 2s ease-in-out;
         }
 
         .search-section h2 {
             font-size: 32px;
             margin-bottom: 20px;
+        }
+
+        /* Category Filters */
+        .category-filters {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .category-filter {
+            padding: 10px 20px;
+            background-color: #f5a623;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .category-filter:hover {
+            transform: scale(1.05);
         }
 
         .search-form {
@@ -164,6 +219,29 @@ $result = $conn->query($sql);
             margin-top: 10px;
         }
 
+        .borrow-btn {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #28a745;
+            border: none;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .borrow-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .borrow-message {
+            color: green;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
         /* Calculation Section */
         .calculation {
             margin: 30px 0;
@@ -215,10 +293,6 @@ $result = $conn->query($sql);
                 opacity: 1;
             }
         }
-
-        .search-section {
-            animation: fadeIn 2s ease-in-out;
-        }
     </style>
 </head>
 <body>
@@ -241,6 +315,12 @@ $result = $conn->query($sql);
     <!-- Search Section -->
     <section class="search-section">
         <h2>Search Books</h2>
+        <div class="category-filters">
+            <button class="category-filter" onclick="window.location.href='search.php?category=all'">All</button>
+            <button class="category-filter" onclick="window.location.href='search.php?category=Programming'">Programming</button>
+            <button class="category-filter" onclick="window.location.href='search.php?category=Fiction'">Fiction</button>
+            <button class="category-filter" onclick="window.location.href='search.php?category=Non-Fiction'">Non-Fiction</button>
+        </div>
         <form class="search-form" method="GET" action="search.php">
             <input type="text" name="query" placeholder="Search by title or author..." value="<?php echo htmlspecialchars($search_query); ?>">
             <button type="submit">Search</button>
@@ -249,18 +329,27 @@ $result = $conn->query($sql);
         <div class="book-grid">
             <?php if ($result->num_rows > 0): ?>
                 <?php while($row = $result->fetch_assoc()): ?>
-                    <div class="book-card">
+                    <div class="book-card" data-category="<?php echo $row['category']; ?>">
                         <img src="<?php echo $row['image_url']; ?>" alt="<?php echo $row['title']; ?>">
                         <h3><?php echo $row['title']; ?></h3>
                         <div class="price">$<?php echo $row['price']; ?></div>
                         <p><?php echo $row['author']; ?></p>
                         <input type="checkbox" class="book-select" data-price="<?php echo $row['price']; ?>">
+                        <form method="POST" action="search.php">
+                            <input type="hidden" name="book_id" value="<?php echo $row['id']; ?>">
+                            <button type="submit" name="borrow_book" class="borrow-btn">Borrow</button>
+                        </form>
                     </div>
                 <?php endwhile; ?>
             <?php else: ?>
                 <p>No books found.</p>
             <?php endif; ?>
         </div>
+
+        <!-- Display borrow message if set -->
+        <?php if ($borrow_message): ?>
+            <p class="borrow-message"><?php echo $borrow_message; ?></p>
+        <?php endif; ?>
 
         <!-- Calculation Section -->
         <div class="calculation">

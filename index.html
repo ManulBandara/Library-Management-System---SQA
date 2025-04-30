@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -98,6 +97,49 @@
             transform: scale(1.1);
         }
 
+        /* Categories Section */
+        .categories {
+            padding: 40px 20px;
+            text-align: center;
+            background-color: #fff;
+        }
+
+        .categories h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .category-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .category-card {
+            background-color: #f5a623;
+            color: #fff;
+            width: 200px;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .category-card i {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .category-card h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+        }
+
         /* Book Store Section */
         .book-store {
             padding: 40px 20px;
@@ -154,6 +196,42 @@
             margin-bottom: 10px;
         }
 
+        /* Call-to-Action Banner */
+        .cta-banner {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1497633762265-9d179a990aa6');
+            background-size: cover;
+            background-position: center;
+            padding: 40px 20px;
+            text-align: center;
+            color: #fff;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .cta-banner h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .cta-banner p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .cta-banner button {
+            padding: 10px 20px;
+            background-color: #f5a623;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-banner button:hover {
+            transform: scale(1.1);
+        }
+
         /* Footer Styles */
         footer {
             background-color: #333;
@@ -174,14 +252,12 @@
             from {
                 opacity: 0;
             }
-
             to {
                 opacity: 1;
             }
         }
     </style>
 </head>
-
 <body>
     <!-- Header -->
     <header>
@@ -206,6 +282,28 @@
         <button onclick="window.location.href='search.php'">Explore Now</button>
     </section>
 
+    <!-- Categories Section -->
+    <section class="categories">
+        <h2>Explore Categories</h2>
+        <div class="category-grid">
+            <div class="category-card" onclick="window.location.href='search.php?category=Programming'">
+                <i class="fas fa-code"></i>
+                <h3>Programming</h3>
+                <p>Learn coding with our tech books.</p>
+            </div>
+            <div class="category-card" onclick="window.location.href='search.php?category=Fiction'">
+                <i class="fas fa-book"></i>
+                <h3>Fiction</h3>
+                <p>Dive into captivating stories.</p>
+            </div>
+            <div class="category-card" onclick="window.location.href='search.php?category=Non-Fiction'">
+                <i class="fas fa-history"></i>
+                <h3>Non-Fiction</h3>
+                <p>Explore real-world knowledge.</p>
+            </div>
+        </div>
+    </section>
+
     <!-- Book Store Section -->
     <section class="book-store">
         <h2>Featured Books</h2>
@@ -215,32 +313,63 @@
                 <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f" alt="Book 1">
                 <h3>Java Programming</h3>
                 <div class="price">$40</div>
-                <p>Lorem ipsum dolor sit amet</p>
+                <p>C. Thomas Wu</p>
             </div>
             <div class="book-card">
                 <img src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e" alt="Book 2">
                 <h3>London Life</h3>
                 <div class="price">$40</div>
-                <p>Lorem ipsum dolor sit amet</p>
+                <p>Bobo Omatoyo</p>
             </div>
             <div class="book-card">
                 <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794" alt="Book 3">
                 <h3>Little Black Book</h3>
                 <div class="price">$40</div>
-                <p>Lorem ipsum dolor sit amet</p>
+                <p>Otegha Uwagba</p>
             </div>
             <div class="book-card">
                 <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765" alt="Book 4">
                 <h3>Japanese Dictionary</h3>
                 <div class="price">$40</div>
-                <p>Lorem ipsum dolor sit amet</p>
+                <p>Tuttle</p>
+            </div>
+            <div class="book-card">
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" alt="Book 5">
+                <h3>Python Crash Course</h3>
+                <div class="price">$45</div>
+                <p>Eric Matthes</p>
+            </div>
+            <div class="book-card">
+                <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73" alt="Book 6">
+                <h3>The Great Gatsby</h3>
+                <div class="price">$30</div>
+                <p>F. Scott Fitzgerald</p>
+            </div>
+            <div class="book-card">
+                <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac" alt="Book 7">
+                <h3>Sapiens</h3>
+                <div class="price">$50</div>
+                <p>Yuval Noah Harari</p>
+            </div>
+            <div class="book-card">
+                <img src="https://images.unsplash.com/photo-1544716278-e513176f20b5" alt="Book 8">
+                <h3>Atomic Habits</h3>
+                <div class="price">$35</div>
+                <p>James Clear</p>
             </div>
         </div>
     </section>
 
+    <!-- Call-to-Action Banner -->
+    <section class="cta-banner">
+        <h2>Join Our Community</h2>
+        <p>Sign up today to access exclusive books and features!</p>
+        <button onclick="window.location.href='register.php'">Register Now</button>
+    </section>
+
     <!-- Footer -->
     <footer>
-        <p>&copy; 2025 Library System. All rights reserved.</p>
+        <p>© 2025 Library System. All rights reserved.</p>
     </footer>
 
     <script>
@@ -255,5 +384,4 @@
         });
     </script>
 </body>
-
 </html>
