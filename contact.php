@@ -14,27 +14,30 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Handle registration form submission
+// Handle contact form submission
 $message = '';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
+    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+    $subject = filter_var($_POST['subject'], FILTER_SANITIZE_STRING);
+    $message_text = filter_var($_POST['message'], FILTER_SANITIZE_STRING);
 
-    // Check if username or email already exists
-    $check_sql = "SELECT * FROM users WHERE username = '$username' OR email = '$email'";
-    $check_result = $conn->query($check_sql);
-
-    if ($check_result->num_rows > 0) {
-        $message = "Error: Username or email already exists.";
+    // Basic validation
+    if (empty($name) || empty($email) || empty($subject) || empty($message_text)) {
+        $message = "Error: All fields are required.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $message = "Error: Invalid email format.";
     } else {
-        $sql = "INSERT INTO users (username, email, password) VALUES ('$username', '$email', '$password')";
-        if ($conn->query($sql) === TRUE) {
-            header("Location: login.php");
-            exit();
+        $sql = "INSERT INTO contact_messages (name, email, subject, message) VALUES (?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssss", $name, $email, $subject, $message_text);
+
+        if ($stmt->execute()) {
+            $message = "Message sent successfully! We'll get back to you soon.";
         } else {
             $message = "Error: " . $conn->error;
         }
+        $stmt->close();
     }
 }
 ?>
@@ -44,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library System - Register</title>
+    <title>Library System - Contact</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -120,8 +123,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
         }
 
-        /* Register Section */
-        .register-section {
+        /* Contact Section */
+        .contact-section {
             padding: 5rem 2rem;
             display: flex;
             justify-content: center;
@@ -130,27 +133,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             background: linear-gradient(180deg, #ffffff, #f9fafb);
         }
 
-        .register-form {
+        .contact-form {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(8px);
             padding: 2.5rem;
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 400px;
+            max-width: 500px;
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.2);
             animation: slideUp 1s ease-out;
         }
 
-        .register-form h2 {
+        .contact-form h2 {
             font-size: 2rem;
             font-weight: 700;
             color: #2d3748;
             margin-bottom: 1.5rem;
         }
 
-        .register-form input {
+        .contact-form input,
+        .contact-form textarea {
             width: 100%;
             padding: 0.8rem 1.5rem;
             margin: 0.75rem 0;
@@ -162,12 +166,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             transition: all 0.3s ease;
         }
 
-        .register-form input:focus {
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
             outline: none;
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
         }
 
-        .register-form button {
+        .contact-form button {
             width: 100%;
             padding: 0.8rem;
             background: linear-gradient(45deg, #3b82f6, #8b5cf6);
@@ -180,33 +190,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             transition: all 0.3s ease;
         }
 
-        .register-form button:hover {
+        .contact-form button:hover {
             transform: scale(1.05);
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
         }
 
-        .register-form .message {
-            color: #ef4444;
+        .contact-form .message {
             margin-top: 1rem;
             font-size: 0.95rem;
             font-weight: 500;
             animation: slideUp 0.5s ease-out;
         }
 
-        .register-form .login-link {
+        .contact-form .message.success {
+            color: #22c55e;
+        }
+
+        .contact-form .message.error {
+            color: #ef4444;
+        }
+
+        .contact-form .contact-info {
             margin-top: 1.5rem;
             font-size: 0.95rem;
             color: #6b7280;
         }
 
-        .register-form .login-link a {
+        .contact-form .contact-info a {
             color: #3b82f6;
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s ease;
         }
 
-        .register-form .login-link a:hover {
+        .contact-form .contact-info a:hover {
             color: #8b5cf6;
         }
 
@@ -237,12 +254,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .register-form {
+            .contact-form {
                 padding: 2rem;
                 max-width: 90%;
             }
 
-            .register-form h2 {
+            .contact-form h2 {
                 font-size: 1.75rem;
             }
 
@@ -282,19 +299,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </header>
 
-    <!-- Register Section -->
-    <section class="register-section">
-        <div class="register-form">
-            <h2>Create Account</h2>
-            <form method="POST" action="register.php">
-                <input type="text" name="username" placeholder="Username" required>
-                <input type="email" name="email" placeholder="Email" required>
-                <input type="password" name="password" placeholder="Password" required>
-                <button type="submit">Register</button>
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="contact-form">
+            <h2>Contact Us</h2>
+            <form method="POST" action="contact.php">
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <input type="text" name="subject" placeholder="Subject" required>
+                <textarea name="message" placeholder="Your Message" required></textarea>
+                <button type="submit">Send Message</button>
                 <?php if ($message): ?>
-                    <p class="message"><?php echo $message; ?></p>
+                    <p class="message <?php echo strpos($message, 'Error') === false ? 'success' : 'error'; ?>">
+                        <?php echo $message; ?>
+                    </p>
                 <?php endif; ?>
-                <p class="login-link">Already have an account? <a href="login.php">Login here</a></p>
+                <p class="contact-info">
+                    Alternatively, reach us at <a href="mailto:support@librarysystem.com">support@librarysystem.com</a>
+                </p>
             </form>
         </div>
     </section>
@@ -316,7 +338,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         });
 
         // Form input animation
-        document.querySelectorAll('.register-form input').forEach(input => {
+        document.querySelectorAll('.contact-form input, .contact-form textarea').forEach(input => {
             input.addEventListener('focus', () => {
                 input.parentElement.classList.add('focused');
             });

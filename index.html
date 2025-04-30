@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,190 +11,295 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         body {
-            background-color: #f4f4f4;
+            background-color: #f9fafb;
+            overflow-x: hidden;
         }
 
         /* Header Styles */
         header {
-            background-color: #f5a623;
-            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         }
 
         .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #fff;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #2d3748;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         nav ul {
             list-style: none;
             display: flex;
-            gap: 20px;
+            gap: 1.5rem;
+            align-items: center;
         }
 
         nav ul li a {
             text-decoration: none;
-            color: #fff;
-            font-weight: bold;
-            transition: color 0.3s ease;
+            color: #4b5563;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
         }
 
         nav ul li a:hover {
-            color: #333;
+            color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+            transform: translateY(-2px);
         }
 
         .user-actions a {
-            color: #fff;
-            margin-left: 15px;
+            color: #ffffff;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 500;
+            margin-left: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .user-actions a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
         }
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1512820790803-83ca734da794');
+            background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('https://images.unsplash.com/photo-1512820790803-83ca734da794');
             background-size: cover;
             background-position: center;
-            height: 400px;
+            min-height: 600px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: #fff;
             text-align: center;
-            animation: fadeIn 2s ease-in-out;
+            color: #ffffff;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(59, 130, 246, 0.2), transparent);
+            z-index: 0;
         }
 
         .hero h1 {
-            font-size: 48px;
-            margin-bottom: 10px;
+            font-size: 3.5rem;
+            font-weight: 700;
+            max-width: 900px;
+            z-index: 1;
+            margin-bottom: 1.5rem;
+            animation: slideUp 1s ease-out;
         }
 
         .hero p {
-            font-size: 18px;
-            margin-bottom: 20px;
+            font-size: 1.25rem;
+            max-width: 700px;
+            opacity: 0.9;
+            z-index: 1;
+            margin-bottom: 2rem;
+            animation: slideUp 1.2s ease-out;
         }
 
         .hero button {
-            padding: 10px 20px;
-            background-color: #f5a623;
+            padding: 0.8rem 2.5rem;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
             border: none;
-            color: #fff;
-            font-size: 16px;
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 500;
             cursor: pointer;
-            border-radius: 5px;
-            transition: transform 0.3s ease;
+            border-radius: 8px;
+            z-index: 1;
+            transition: all 0.3s ease;
+            animation: slideUp 1.4s ease-out;
         }
 
         .hero button:hover {
-            transform: scale(1.1);
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
         }
 
         /* Categories Section */
         .categories {
-            padding: 40px 20px;
+            padding: 5rem 2rem;
             text-align: center;
-            background-color: #fff;
+            background: linear-gradient(180deg, #ffffff, #f9fafb);
         }
 
         .categories h2 {
-            font-size: 32px;
-            margin-bottom: 20px;
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 3rem;
         }
 
         .category-grid {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .category-card {
-            background-color: #f5a623;
-            color: #fff;
-            width: 200px;
-            padding: 20px;
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 12px;
+            padding: 2rem;
             text-align: center;
-            transition: transform 0.3s ease;
-        }
-
-        .category-card i {
-            font-size: 40px;
-            margin-bottom: 10px;
-        }
-
-        .category-card h3 {
-            font-size: 20px;
-            margin-bottom: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .category-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .category-card i {
+            font-size: 2.8rem;
+            color: #3b82f6;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .category-card:hover i {
+            transform: scale(1.1);
+        }
+
+        .category-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-card p {
+            font-size: 0.95rem;
+            color: #6b7280;
         }
 
         /* Book Store Section */
         .book-store {
-            padding: 40px 20px;
+            padding: 5rem 2rem;
             text-align: center;
+            background: #ffffff;
         }
 
         .book-store h2 {
-            font-size: 32px;
-            margin-bottom: 10px;
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 1.5rem;
         }
 
         .book-store p {
-            font-size: 16px;
-            color: #666;
-            margin-bottom: 30px;
+            font-size: 1.1rem;
+            color: #6b7280;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .book-grid {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .book-card {
-            background-color: #fff;
-            width: 200px;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
             text-align: center;
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .book-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .book-card:hover::before {
+            opacity: 1;
         }
 
         .book-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
         }
 
         .book-card img {
             width: 100%;
-            height: 200px;
+            height: 280px;
             object-fit: cover;
-            border-radius: 5px;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .book-card:hover img {
+            transform: scale(1.03);
         }
 
         .book-card h3 {
-            font-size: 18px;
-            margin: 10px 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
         }
 
         .book-card .price {
-            color: #f5a623;
-            font-weight: bold;
-            margin-bottom: 10px;
+            color: #3b82f6;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .book-card p {
+            font-size: 0.95rem;
+            color: #6b7280;
         }
 
         /* Call-to-Action Banner */
@@ -201,63 +307,162 @@
             background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1497633762265-9d179a990aa6');
             background-size: cover;
             background-position: center;
-            padding: 40px 20px;
+            padding: 5rem 2rem;
             text-align: center;
-            color: #fff;
-            animation: fadeIn 2s ease-in-out;
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(59, 130, 246, 0.2), transparent);
+            z-index: 0;
         }
 
         .cta-banner h2 {
-            font-size: 32px;
-            margin-bottom: 10px;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            z-index: 1;
         }
 
         .cta-banner p {
-            font-size: 18px;
-            margin-bottom: 20px;
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            z-index: 1;
+            opacity: 0.9;
         }
 
         .cta-banner button {
-            padding: 10px 20px;
-            background-color: #f5a623;
+            padding: 0.8rem 2.5rem;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
             border: none;
-            color: #fff;
-            font-size: 16px;
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 500;
             cursor: pointer;
-            border-radius: 5px;
-            transition: transform 0.3s ease;
+            border-radius: 8px;
+            z-index: 1;
+            transition: all 0.3s ease;
         }
 
         .cta-banner button:hover {
-            transform: scale(1.1);
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Footerpr {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            z-index: 1;
+            animation: slideUp 1s ease-out;
+        }
+
+        .cta-banner p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            z-index: 1;
+            opacity: 0.9;
+            animation: slideUp 1.2s ease-out;
+        }
+
+        .cta-banner button {
+            padding: 0.8rem 2.5rem;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            border: none;
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 8px;
+            z-index: 1;
+            transition: all 0.3s ease;
+            animation: slideUp 1.4s ease-out;
+        }
+
+        .cta-banner button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
         }
 
         /* Footer Styles */
         footer {
-            background-color: #333;
-            color: #fff;
+            background: #2d3748;
+            color: #ffffff;
             text-align: center;
-            padding: 20px;
-            position: relative;
-            bottom: 0;
-            width: 100%;
+            padding: 2rem;
         }
 
         footer p {
-            margin: 0;
+            font-size: 0.95rem;
+            opacity: 0.8;
         }
 
         /* Animations */
-        @keyframes fadeIn {
+        @keyframes slideUp {
             from {
                 opacity: 0;
+                transform: translateY(20px);
             }
+
             to {
                 opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .categories h2,
+            .book-store h2,
+            .cta-banner h2 {
+                font-size: 1.75rem;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .user-actions {
+                display: flex;
+                gap: 1rem;
+            }
+
+            .hero {
+                min-height: 400px;
             }
         }
     </style>
 </head>
+
 <body>
     <!-- Header -->
     <header>
@@ -267,6 +472,7 @@
                 <li><a href="index.html">Home</a></li>
                 <li><a href="search.php">Book Search</a></li>
                 <li><a href="about.html">About</a></li>
+                <li><a href="contact.php">Contact</a></li>
             </ul>
         </nav>
         <div class="user-actions">
@@ -277,9 +483,9 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <h1>Welcome to the Library</h1>
-        <p>Discover a world of knowledge with our extensive collection of books.</p>
-        <button onclick="window.location.href='search.php'">Explore Now</button>
+        <h1>Embark on a Reading Adventure</h1>
+        <p>Explore our vast collection of books and find your next favorite story.</p>
+        <button onclick="window.location.href='search.php'">Discover Books</button>
     </section>
 
     <!-- Categories Section -->
@@ -289,70 +495,70 @@
             <div class="category-card" onclick="window.location.href='search.php?category=Programming'">
                 <i class="fas fa-code"></i>
                 <h3>Programming</h3>
-                <p>Learn coding with our tech books.</p>
+                <p>Level up your coding skills</p>
             </div>
             <div class="category-card" onclick="window.location.href='search.php?category=Fiction'">
                 <i class="fas fa-book"></i>
                 <h3>Fiction</h3>
-                <p>Dive into captivating stories.</p>
+                <p>Escape into epic stories</p>
             </div>
             <div class="category-card" onclick="window.location.href='search.php?category=Non-Fiction'">
                 <i class="fas fa-history"></i>
                 <h3>Non-Fiction</h3>
-                <p>Explore real-world knowledge.</p>
+                <p>Expand your knowledge</p>
             </div>
         </div>
     </section>
 
     <!-- Book Store Section -->
     <section class="book-store">
-        <h2>Featured Books</h2>
-        <p>Explore our curated collection of books for all ages and interests.</p>
+        <h2>Trending Books</h2>
+        <p>Check out our curated selection of must-read titles</p>
         <div class="book-grid">
             <div class="book-card">
-                <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f" alt="Book 1">
+                <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f" alt="Java Programming">
                 <h3>Java Programming</h3>
                 <div class="price">$40</div>
                 <p>C. Thomas Wu</p>
             </div>
             <div class="book-card">
-                <img src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e" alt="Book 2">
+                <img src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e" alt="London Life">
                 <h3>London Life</h3>
                 <div class="price">$40</div>
                 <p>Bobo Omatoyo</p>
             </div>
             <div class="book-card">
-                <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794" alt="Book 3">
+                <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794" alt="Little Black Book">
                 <h3>Little Black Book</h3>
                 <div class="price">$40</div>
                 <p>Otegha Uwagba</p>
             </div>
             <div class="book-card">
-                <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765" alt="Book 4">
+                <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765" alt="Japanese Dictionary">
                 <h3>Japanese Dictionary</h3>
                 <div class="price">$40</div>
                 <p>Tuttle</p>
             </div>
             <div class="book-card">
-                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" alt="Book 5">
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" alt="Python Crash Course">
                 <h3>Python Crash Course</h3>
                 <div class="price">$45</div>
                 <p>Eric Matthes</p>
             </div>
             <div class="book-card">
-                <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73" alt="Book 6">
+                <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73" alt="The Great Gatsby">
                 <h3>The Great Gatsby</h3>
                 <div class="price">$30</div>
                 <p>F. Scott Fitzgerald</p>
             </div>
             <div class="book-card">
-                <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac" alt="Book 7">
+                <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac" alt="Sapiens">
                 <h3>Sapiens</h3>
                 <div class="price">$50</div>
                 <p>Yuval Noah Harari</p>
             </div>
             <div class="book-card">
-                <img src="https://images.unsplash.com/photo-1544716278-e513176f20b5" alt="Book 8">
+                <img src="https://images.unsplash.com/photo-1544716278-e513176f20b5" alt="Atomic Habits">
                 <h3>Atomic Habits</h3>
                 <div class="price">$35</div>
                 <p>James Clear</p>
@@ -362,9 +568,9 @@
 
     <!-- Call-to-Action Banner -->
     <section class="cta-banner">
-        <h2>Join Our Community</h2>
-        <p>Sign up today to access exclusive books and features!</p>
-        <button onclick="window.location.href='register.php'">Register Now</button>
+        <h2>Become a Member Today</h2>
+        <p>Unlock exclusive books and personalized recommendations</p>
+        <button onclick="window.location.href='register.php'">Join Now</button>
     </section>
 
     <!-- Footer -->
@@ -373,7 +579,7 @@
     </footer>
 
     <script>
-        // Add smooth scrolling for navigation links
+        // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -382,6 +588,39 @@
                 });
             });
         });
+
+        // Lazy load images
+        document.addEventListener('DOMContentLoaded', () => {
+            const images = document.querySelectorAll('img');
+            const options = {
+                rootMargin: '100px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        observer.unobserve(img);
+                    }
+                });
+            }, options);
+
+            images.forEach(img => {
+                img.dataset.src = img.src;
+                img.src = '';
+                observer.observe(img);
+            });
+        });
+
+        // Parallax effect for hero section
+        window.addEventListener('scroll', () => {
+            const hero = document.querySelector('.hero');
+            const scrollPosition = window.pageYOffset;
+            hero.style.backgroundPositionY = `${scrollPosition * 0.3}px`;
+        });
     </script>
 </body>
+
 </html>
