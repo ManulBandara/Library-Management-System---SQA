@@ -439,6 +439,7 @@ $result = $conn->query($sql);
                 <li><a href="search.php">Book Search</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="contact.php">Contact</a></li>
+                <li><a href="profile.php">Profile</a></li>
             </ul>
         </nav>
         <div class="user-actions">
