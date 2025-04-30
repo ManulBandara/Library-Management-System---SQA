@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 30, 2025 at 08:41 AM
+-- Generation Time: Apr 30, 2025 at 12:49 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -32,18 +32,27 @@ CREATE TABLE `books` (
   `title` varchar(100) NOT NULL,
   `author` varchar(100) NOT NULL,
   `price` decimal(10,2) NOT NULL,
-  `image_url` varchar(255) NOT NULL
+  `image_url` varchar(255) NOT NULL,
+  `category` varchar(50) NOT NULL DEFAULT 'Non-Fiction'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `books`
 --
 
-INSERT INTO `books` (`id`, `title`, `author`, `price`, `image_url`) VALUES
-(1, 'Java Programming', 'C. Thomas Wu', 40.00, 'https://images.unsplash.com/photo-1544947950-fa07a98d237f'),
-(2, 'London Life', 'Bobo Omatoyo', 40.00, 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e'),
-(3, 'Little Black Book', 'Otegha Uwagba', 40.00, 'https://images.unsplash.com/photo-1512820790803-83ca734da794'),
-(4, 'Japanese Dictionary', 'Tuttle', 40.00, 'https://images.unsplash.com/photo-1532012197267-da84d127e765');
+INSERT INTO `books` (`id`, `title`, `author`, `price`, `image_url`, `category`) VALUES
+(2, 'London Life', 'Bobo Omatoyo', 40.00, 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e', 'Fiction'),
+(3, 'Little Black Book', 'Otegha Uwagba', 40.00, 'https://images.unsplash.com/photo-1512820790803-83ca734da794', 'Non-Fiction'),
+(5, 'Java Programming', 'C. Thomas Wu', 40.00, 'https://images.unsplash.com/photo-1544947950-fa07a98d237f', 'Programming'),
+(6, 'London Life', 'Bobo Omatoyo', 40.00, 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e', 'Fiction'),
+(7, 'Little Black Book', 'Otegha Uwagba', 40.00, 'https://images.unsplash.com/photo-1512820790803-83ca734da794', 'Non-Fiction'),
+(10, 'The Great Gatsby', 'F. Scott Fitzgerald', 30.00, 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73', 'Fiction'),
+(11, 'Sapiens', 'Yuval Noah Harari', 50.00, 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac', 'Non-Fiction'),
+(12, 'Atomic Habits', 'James Clear', 35.00, 'https://images.unsplash.com/photo-1544716278-e513176f20b5', 'Non-Fiction'),
+(14, 'London Life', 'Bobo Omatoyo', 40.00, 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e', 'Fiction'),
+(15, 'Little Black Book', 'Otegha Uwagba', 40.00, 'https://images.unsplash.com/photo-1512820790803-83ca734da794', 'Non-Fiction'),
+(20, 'Atomic Habits', 'James Clear', 35.00, 'https://images.unsplash.com/photo-1544716278-e513176f20b5', 'Non-Fiction'),
+(27, 'Sapiens', 'Yuval Noah Harari', 50.00, 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac', 'Non-Fiction');
 
 -- --------------------------------------------------------
 
@@ -57,6 +66,35 @@ CREATE TABLE `borrowed_books` (
   `book_id` int(11) NOT NULL,
   `borrow_date` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `borrowed_books`
+--
+
+INSERT INTO `borrowed_books` (`id`, `user_id`, `book_id`, `borrow_date`) VALUES
+(2, 2, 2, '2025-04-30 14:25:14');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contact_messages`
+--
+
+CREATE TABLE `contact_messages` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `subject` varchar(255) NOT NULL,
+  `message` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `contact_messages`
+--
+
+INSERT INTO `contact_messages` (`id`, `name`, `email`, `subject`, `message`, `created_at`) VALUES
+(1, 'Manul Winsuka Bandara', 'manulbandara@gmail.com', 'hyh', 'hyh', '2025-04-30 07:45:25');
 
 -- --------------------------------------------------------
 
@@ -97,6 +135,12 @@ ALTER TABLE `borrowed_books`
   ADD KEY `book_id` (`book_id`);
 
 --
+-- Indexes for table `contact_messages`
+--
+ALTER TABLE `contact_messages`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -112,19 +156,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `books`
 --
 ALTER TABLE `books`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `borrowed_books`
 --
 ALTER TABLE `borrowed_books`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `contact_messages`
+--
+ALTER TABLE `contact_messages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
