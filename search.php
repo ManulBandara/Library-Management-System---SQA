@@ -352,6 +352,7 @@ $result = $conn->query($sql);
             cursor: pointer;
             border-radius: 8px;
             transition: all 0.3s ease;
+            margin: 0 0.5rem;
         }
 
         .calculation button:hover {
@@ -359,11 +360,28 @@ $result = $conn->query($sql);
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
         }
 
+        .calculation .reset-btn {
+            background: linear-gradient(45deg, #e11d48, #f43f5e);
+        }
+
+        .calculation .reset-btn:hover {
+            box-shadow: 0 4px 15px rgba(225, 29, 72, 0.3);
+        }
+
         .calculation p {
             margin-top: 1rem;
             font-size: 1.25rem;
             font-weight: 600;
             color: #2d3748;
+        }
+
+        .error-message {
+            color: #e11d48;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            animation: slideUp 0.5s ease-out;
         }
 
         /* Footer Styles */
@@ -490,6 +508,7 @@ $result = $conn->query($sql);
         <!-- Calculation Section -->
         <div class="calculation">
             <button onclick="calculateTotal()">Calculate Total Cost</button>
+            <button onclick="resetCalculation()" class="reset-btn">Reset</button>
             <p>Total: $<span id="total-cost">0</span></p>
         </div>
     </section>
@@ -501,36 +520,63 @@ $result = $conn->query($sql);
 
     <script>
         function calculateTotal() {
-    const checkboxes = document.querySelectorAll('.book-select:checked');
-    const totalCostElement = document.getElementById('total-cost');
-    const errorMessageElement = document.createElement('p'); // Create a new paragraph for error message
-    errorMessageElement.className = 'error-message';
-    errorMessageElement.style.color = '#e11d48';
-    errorMessageElement.style.textAlign = 'center';
-    errorMessageElement.style.marginTop = '1rem';
-    errorMessageElement.style.fontSize = '1.1rem';
-    errorMessageElement.style.fontWeight = '500';
+            const checkboxes = document.querySelectorAll('.book-select:checked');
+            const totalCostElement = document.getElementById('total-cost');
+            const errorMessageElement = document.createElement('p');
+            errorMessageElement.className = 'error-message';
+            errorMessageElement.style.color = '#e11d48';
+            errorMessageElement.style.textAlign = 'center';
+            errorMessageElement.style.marginTop = '1rem';
+            errorMessageElement.style.fontSize = '1.1rem';
+            errorMessageElement.style.fontWeight = '500';
 
-    // Remove any existing error message
-    const existingError = document.querySelector('.error-message');
-    if (existingError) {
-        existingError.remove();
-    }
+            // Remove any existing error message
+            const existingError = document.querySelector('.error-message');
+            if (existingError) {
+                existingError.remove();
+            }
 
-    if (checkboxes.length === 0) {
-        // No books selected, show error message
-        errorMessageElement.textContent = 'Please select at least one book to calculate the total.';
-        document.querySelector('.calculation').appendChild(errorMessageElement);
-        totalCostElement.textContent = '0'; // Reset total cost
-    } else {
-        // Calculate total
-        let total = 0;
-        checkboxes.forEach(checkbox => {
-            total += parseFloat(checkbox.getAttribute('data-price'));
+            if (checkboxes.length === 0) {
+                // No books selected, show error message
+                errorMessageElement.textContent = 'Please select at least one book to calculate the total.';
+                document.querySelector('.calculation').appendChild(errorMessageElement);
+                totalCostElement.textContent = '0';
+            } else {
+                // Calculate total
+                let total = 0;
+                checkboxes.forEach(checkbox => {
+                    total += parseFloat(checkbox.getAttribute('data-price'));
+                });
+                totalCostElement.textContent = total.toFixed(2);
+            }
+        }
+
+        function resetCalculation() {
+            // Clear all selected checkboxes
+            const checkboxes = document.querySelectorAll('.book-select');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+
+            // Reset total cost
+            document.getElementById('total-cost').textContent = '0';
+
+            // Remove any error message
+            const existingError = document.querySelector('.error-message');
+            if (existingError) {
+                existingError.remove();
+            }
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
         });
-        totalCostElement.textContent = total.toFixed(2);
-    }
-}
 
         // Lazy load images
         document.addEventListener('DOMContentLoaded', () => {
