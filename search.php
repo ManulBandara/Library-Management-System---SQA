@@ -501,23 +501,36 @@ $result = $conn->query($sql);
 
     <script>
         function calculateTotal() {
-            const checkboxes = document.querySelectorAll('.book-select:checked');
-            let total = 0;
-            checkboxes.forEach(checkbox => {
-                total += parseFloat(checkbox.getAttribute('data-price'));
-            });
-            document.getElementById('total-cost').textContent = total.toFixed(2);
-        }
+    const checkboxes = document.querySelectorAll('.book-select:checked');
+    const totalCostElement = document.getElementById('total-cost');
+    const errorMessageElement = document.createElement('p'); // Create a new paragraph for error message
+    errorMessageElement.className = 'error-message';
+    errorMessageElement.style.color = '#e11d48';
+    errorMessageElement.style.textAlign = 'center';
+    errorMessageElement.style.marginTop = '1rem';
+    errorMessageElement.style.fontSize = '1.1rem';
+    errorMessageElement.style.fontWeight = '500';
 
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
+    // Remove any existing error message
+    const existingError = document.querySelector('.error-message');
+    if (existingError) {
+        existingError.remove();
+    }
+
+    if (checkboxes.length === 0) {
+        // No books selected, show error message
+        errorMessageElement.textContent = 'Please select at least one book to calculate the total.';
+        document.querySelector('.calculation').appendChild(errorMessageElement);
+        totalCostElement.textContent = '0'; // Reset total cost
+    } else {
+        // Calculate total
+        let total = 0;
+        checkboxes.forEach(checkbox => {
+            total += parseFloat(checkbox.getAttribute('data-price'));
         });
+        totalCostElement.textContent = total.toFixed(2);
+    }
+}
 
         // Lazy load images
         document.addEventListener('DOMContentLoaded', () => {
